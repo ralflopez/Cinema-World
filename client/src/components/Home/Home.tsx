@@ -25,11 +25,16 @@ function Home() {
 
     // animation
     useEffect(() => {
+        if(comingSoon.length === 0 || nowShowing.length === 0) return;
+
         const tl = gsap.timeline();
 
-        tl.to('.poster-container', {visibility: 'visible', opacity: 1, duration: 0.5, ease: 'power3.easeOut', stagger: 0.5})
-        .to('.poster', { opacity: 0, duration: 0.5, ease: 'power2.easeOut', stagger: 0.5 })
-    }, []);
+        tl
+        .to('.poster-container', {visibility: 'visible', opacity: 1, duration: 0.5, ease: 'power3.easeOut', stagger: 0.2})
+        .from('.poster', { x: '120%', opacity: 0, width: 0, duration: 0.5, ease: 'power3.easeOut', stagger: 0.2 }, '-=0.5')
+        
+    }, [comingSoon, nowShowing]);
+
     return (
         <>
             <Box mb={5} className={`${classes.posterContainer} poster-container`}>

@@ -1,5 +1,5 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import logo from '../../assets/cinema-world-icon.svg';
 import { gsap } from 'gsap';
 import { Link } from 'react-router-dom';
@@ -14,11 +14,11 @@ function NavBar() {
     }, []);
 
     return (
-        <div ref={navbar_ref}>
+        <div ref={navbar_ref} className={classes.root}>
             <Box display="flex" justifyContent="space-between" paddingTop={3} paddingBottom={3}>
                 <Box className={classes.brandContainer} display="flex" alignItems="center">
                     <img src={logo} alt="Cinema World" className={classes.logo}/>
-                    <div>
+                    <div className={classes.titleContainer}>
                         <Typography variant="h1" color="primary" className={classes.title}>Cinema</Typography>
                         <Typography variant="h1" className={classes.title}>World</Typography>
                     </div>
@@ -28,10 +28,6 @@ function NavBar() {
                         <Link to="/" className={classes.link}>Home</Link>
                     </Typography>
                     <Typography variant="h5" className={classes.link}>My Movie</Typography>
-                    <div className={classes.hamburger}>
-                        <div className={classes.hbar}></div>
-                        <div className={classes.hbar}></div>
-                    </div>
                 </Box>
             </Box>
         </div>
@@ -39,44 +35,41 @@ function NavBar() {
 }
 
 const useStyles = makeStyles(theme => ({
+    root: {
+        position: 'relative',
+        zIndex: 10,
+    },
     brandContainer: {
         cursor: 'pointer',
-        '&:hover': {
-            
-        },
     },
     logo: {
         width: '4.5rem',
-        marginRight: theme.spacing(2)
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.down('xs')]: {
+            width: '3rem'
+        }
+    },
+    titleContainer: {
+        [theme.breakpoints.down('xs')]: {
+            display: 'none'
+        }
     },
     title: {
         fontSize: '1.3rem'
     },
     link: {
-        marginLeft: theme.spacing(2),
+        marginLeft: theme.spacing(3),
         cursor: 'pointer',
         transition: 'all 500ms ease-out',
         textDecoration: 'none',
         color: theme.palette.primary.contrastText,
-        [theme.breakpoints.down('xs')]: {
-            display: 'none'
-        },
         '&:hover': {
             color: theme.palette.primary.main
-        }
-    },
-    hamburger: {
-        display: 'none',
+        },
         [theme.breakpoints.down('xs')]: {
-            display: 'block'
+            fontSize: '1rem',
         }
     },
-    hbar: {
-        width: '2rem',
-        height: '1px',
-        margin: '0 1rem',
-        backgroundColor: theme.palette.primary.contrastText
-    }
 }));
 
 export default NavBar;

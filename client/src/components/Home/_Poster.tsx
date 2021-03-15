@@ -69,7 +69,8 @@ const useStyles = makeStyles(theme => ({
         textAlign: 'center',
         marginRight: theme.spacing(2),
         textDecoration: 'none',
-        color: theme.palette.primary.contrastText
+        color: theme.palette.primary.contrastText,
+        // visibility: 'hidden'
     },
     imgContainer: {
         height: '300px',

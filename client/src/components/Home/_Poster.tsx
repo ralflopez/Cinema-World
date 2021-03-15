@@ -1,5 +1,7 @@
-import { makeStyles, Typography } from '@material-ui/core';
-import React from 'react';
+import { Box, makeStyles, Typography } from '@material-ui/core';
+import { useRef } from 'react';
+import { gsap } from 'gsap';
+import { useHistory } from 'react-router-dom';
 
 // interface Poster {
 //     title: string,
@@ -8,20 +10,55 @@ import React from 'react';
 //     poster?: string
 // }
 
-function _Poster({ data }: any) {
+function _Poster({ data, comingSoon, noHover }: any) {
     const classes = useStyles();
-    // const prop = {
-    //     title: 'Raya and the Last Dragon',
-    //     poster_path: '/lPsD10PP4rgUGiGR4CCXA6iY0QQ.jpg'
-    // }
+    let history = useHistory();
     const base_poster_path = 'https://image.tmdb.org/t/p/original';
+    let details_ref: any = useRef(null);
+
+    const showDetails = () => {
+        return !noHover && gsap.to(details_ref, { top: 0, ease: 'power3.easeOut'});
+    }
+
+    const hideDetails = () => {
+        return !noHover && gsap.to(details_ref, { top: '100%', ease: 'power3.easeOut'});
+    }
+
+    const redirect = () => {
+        history.push({
+            pathname: '/movie',
+            state: {
+                data: data
+            }
+        });
+    }
 
     return (
-        <div className={classes.container}>
+        <div
+            className={`${classes.container} poster`} 
+            onMouseOver={showDetails} 
+            onMouseLeave={hideDetails} 
+            onClick={redirect}
+        >
             <div className={classes.imgContainer}>
+                <div className={classes.detailsContainer} ref={d => (details_ref = d)}>
+                    <Typography variant="body1" className={classes.detailsTitle}>{data.title}</Typography>
+                    <Box display="flex" justifyContent="space-around" width="100%" marginBottom="16px">
+                        <Typography variant="body2">7:00AM</Typography>
+                        <Typography variant="body2" color="primary">Cinema 1</Typography>
+                    </Box>
+                    <Box display="flex" justifyContent="space-around" width="100%" marginBottom="16px">
+                        <Typography variant="body2">7:00AM</Typography>
+                        <Typography variant="body2" color="primary">Cinema 1</Typography>
+                    </Box>
+                    <Box display="flex" justifyContent="space-around" width="100%" marginBottom="16px">
+                        <Typography variant="body2">7:00AM</Typography>
+                        <Typography variant="body2" color="primary">Cinema 1</Typography>
+                    </Box>
+                </div>
                 <img src={base_poster_path + data.poster_path} alt="poster" className={classes.poster}/>        
             </div>
-            <Typography variant="body1" className={classes.title}>{data.title}</Typography>
+            { !noHover && <Typography variant="body1" className={classes.title}>{data.title}</Typography>}
         </div>
     );
 }
@@ -30,15 +67,17 @@ const useStyles = makeStyles(theme => ({
     container: {
         display: 'inline-block',
         textAlign: 'center',
-        marginRight: theme.spacing(2)
+        marginRight: theme.spacing(2),
+        textDecoration: 'none',
+        color: theme.palette.primary.contrastText
     },
     imgContainer: {
         height: '300px',
         width: '200px',
-        backgroundColor: 'gold',
         borderRadius: theme.shape.borderRadius,
         overflow: 'hidden',
-        marginBottom: theme.spacing(1)
+        marginBottom: theme.spacing(1),
+        position: 'relative'
     },
     poster: {
         width: '100%',
@@ -47,6 +86,22 @@ const useStyles = makeStyles(theme => ({
     title: {
         fontWeight: 'lighter',
         marginBottom: theme.spacing(3)
+    },
+    detailsContainer: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        background: 'rgba(0, 0, 0, 0.83)',
+        backdropFilter: 'blur(8px)',
+        top: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: theme.spacing(1),
+    },
+    detailsTitle: {
+        marginBottom: theme.spacing(2)
     }
 }));
 

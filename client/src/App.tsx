@@ -1,18 +1,20 @@
-import React from 'react';
+import './App.css';
 import { createMuiTheme, CssBaseline, responsiveFontSizes, ThemeProvider } from '@material-ui/core';
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
 import Home from './components/Home/Home';
+import Movie from './components/Details/Movie';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-        <div style={{maxWidth: '1000px', margin: 'auto', padding: '0 16px'}}>
+        <div style={{width: '100%', maxWidth: '1000px', margin: 'auto', padding: '0 16px'}}>
           <Router>
             <NavBar />
             <Switch>
-              <Route path="/" component={Home} />
+              <Route path="/" exact component={Home} />
+              <Route path="/movie" component={Movie} />
             </Switch>
           </Router>
         </div>
@@ -29,6 +31,9 @@ let theme = createMuiTheme({
     secondary: {
       main: '#3772FF',
       contrastText: '#FFFFFF'
+    },
+    grey: {
+      100: '#2D292D'
     },
     background: {
       default: '#161316'

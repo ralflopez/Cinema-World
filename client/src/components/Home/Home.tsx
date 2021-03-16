@@ -11,15 +11,15 @@ function Home() {
 
     // now showing
     useEffect(() => {
-        axios.get('https://api.themoviedb.org/3/movie/now_playing?api_key=3de13412db60abf77d28af9deb0f538b&language=en-US&page=1')
-        .then(res => {console.log(res); return res;})
-        .then(res => setNowShowing(res.data.results.slice(0,5)));
+        axios.get('/api/now_showing')
+        // .then(res => {console.log(res); return res;})
+        .then(res => setNowShowing(res.data));
     }, []);
 
     // coming soon
     useEffect(() => {
         axios.get('https://api.themoviedb.org/3/movie/upcoming?api_key=3de13412db60abf77d28af9deb0f538b&language=en-US&page=1')
-        .then(res => {console.log(res); return res;})
+        // .then(res => {console.log(res); return res;})
         .then(res => setComingSoon(res.data.results.slice(0,5)));
     }, []);
 
@@ -31,7 +31,7 @@ function Home() {
 
         tl
         .to('.poster-container', {visibility: 'visible', opacity: 1, duration: 0.5, ease: 'power3.easeOut', stagger: 0.2})
-        .from('.poster', { x: '120%', opacity: 0, width: 0, duration: 0.5, ease: 'power3.easeOut', stagger: 0.2 }, '-=0.5')
+        .from('.poster', { x: '120%', opacity: 0, transform: 'scaleX(2)', duration: 0.5, ease: 'power3.easeOut', stagger: 0.2 }, '-=0.5')
         
     }, [comingSoon, nowShowing]);
 

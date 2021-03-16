@@ -1,5 +1,5 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import logo from '../../assets/cinema-world-icon.svg';
 import { gsap } from 'gsap';
 import { Link } from 'react-router-dom';

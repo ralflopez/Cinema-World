@@ -13,7 +13,7 @@ import { useHistory } from 'react-router-dom';
 function _Poster({ data, comingSoon, noHover }: any) {
     const classes = useStyles();
     let history = useHistory();
-    const base_poster_path = 'https://image.tmdb.org/t/p/original';
+    const poster_path = 'poster_path' in data ? `https://image.tmdb.org/t/p/original${data.poster_path}` : data.poster_url;
     let details_ref: any = useRef(null);
 
     const showDetails = () => {
@@ -23,6 +23,7 @@ function _Poster({ data, comingSoon, noHover }: any) {
     const hideDetails = () => {
         return !noHover && gsap.to(details_ref, { top: '100%', ease: 'power3.easeOut'});
     }
+    console.log(data);
 
     const redirect = () => {
         history.push({
@@ -43,20 +44,17 @@ function _Poster({ data, comingSoon, noHover }: any) {
             <div className={classes.imgContainer}>
                 <div className={classes.detailsContainer} ref={d => (details_ref = d)}>
                     <Typography variant="body1" className={classes.detailsTitle}>{data.title}</Typography>
-                    <Box display="flex" justifyContent="space-around" width="100%" marginBottom="16px">
-                        <Typography variant="body2">7:00AM</Typography>
-                        <Typography variant="body2" color="primary">Cinema 1</Typography>
-                    </Box>
-                    <Box display="flex" justifyContent="space-around" width="100%" marginBottom="16px">
-                        <Typography variant="body2">7:00AM</Typography>
-                        <Typography variant="body2" color="primary">Cinema 1</Typography>
-                    </Box>
-                    <Box display="flex" justifyContent="space-around" width="100%" marginBottom="16px">
-                        <Typography variant="body2">7:00AM</Typography>
-                        <Typography variant="body2" color="primary">Cinema 1</Typography>
-                    </Box>
+                    {
+                        data.time ? data.time.map((sched: any) => (
+                            <Box display="flex" justifyContent="space-around" width="100%" marginBottom="16px">
+                                <Typography variant="body2">{sched.time}</Typography>
+                                <Typography variant="body2" color="primary">Cinema {sched.cinema}</Typography>
+                            </Box>
+                        ))
+                        : <Typography variant="body2" color="primary">{data.release_date}</Typography>
+                    }
                 </div>
-                <img src={base_poster_path + data.poster_path} alt="poster" className={classes.poster}/>        
+                <img src={poster_path} alt="poster" className={classes.poster}/>        
             </div>
             { !noHover && <Typography variant="body1" className={classes.title}>{data.title}</Typography>}
         </div>
@@ -83,6 +81,7 @@ const useStyles = makeStyles(theme => ({
     poster: {
         width: '100%',
         height: '100%',
+        objectFit: 'cover'
     },
     title: {
         fontWeight: 'lighter',

@@ -23,7 +23,6 @@ function _Poster({ data, comingSoon, noHover }: any) {
     const hideDetails = () => {
         return !noHover && gsap.to(details_ref, { top: '100%', ease: 'power3.easeOut'});
     }
-    console.log(data);
 
     const redirect = () => {
         history.push({

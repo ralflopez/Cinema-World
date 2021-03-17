@@ -13,7 +13,7 @@ interface ITime {
 
 function _Time({ data, time, setTime }: ITime) {
     const classes = useStyles();
-
+    console.log(data);
     const handleTimeSelect = (time: string) => {
         setTime(time);
     }

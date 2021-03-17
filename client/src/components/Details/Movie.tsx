@@ -11,8 +11,6 @@ function Movie() {
     const [time, setTime] = useState<string>('');
     const [seats, setSeats] = useState<boolean[]>(data.seats);
 
-    console.log(data);
-
     return (
         <Box className={classes.container}>
             <MainInfo data={data}/>
@@ -22,7 +20,6 @@ function Movie() {
                         setTime={setTime}
             /> }
             {data.seats && <Seat
-                        data={data.seats}
                         seats={seats}
                         setSeats={setSeats}
             /> }

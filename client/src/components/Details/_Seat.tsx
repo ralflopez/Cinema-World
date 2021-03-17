@@ -2,12 +2,11 @@ import { Button, Box, Typography, makeStyles } from '@material-ui/core';
 import { useState, useEffect } from 'react';
 
 interface ISeat {
-    data: boolean[],
     seats: boolean[],
     setSeats: any
 }
 
-function _Seat({ data, seats, setSeats }: ISeat) {
+function _Seat({ seats, setSeats }: ISeat) {
     const classes = useStyles();
     const [active, setActive] = useState<number|null>(null);
     

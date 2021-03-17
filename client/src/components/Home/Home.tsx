@@ -8,6 +8,7 @@ function Home() {
     const classes: any = useStyles();
     const [nowShowing, setNowShowing] = useState([]);
     const [comingSoon, setComingSoon] = useState([]);
+    console.log('1');
 
     // now showing
     useEffect(() => {

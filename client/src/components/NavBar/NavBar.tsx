@@ -27,7 +27,9 @@ function NavBar() {
                     <Typography variant="h5">
                         <Link to="/" className={classes.link}>Home</Link>
                     </Typography>
-                    <Typography variant="h5" className={classes.link}>My Movie</Typography>
+                    <Typography variant="h5">
+                        <Link to="/mymovie" className={classes.link}>My Movie</Link>
+                    </Typography>
                 </Box>
             </Box>
         </div>

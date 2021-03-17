@@ -1106,7 +1106,10 @@
     regenerator-runtime "^0.13.4"
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 "@babel/runtime@^7.12.5", "@babel/runtime@^7.3.1", "@babel/runtime@^7.4.4", "@babel/runtime@^7.8.3", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
   version "7.13.10"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.10.tgz#47d42a57b6095f4468da440388fdbad8bebf0d7d"
@@ -1876,6 +1879,7 @@
   integrity sha512-1HcDas8SEj4z1Wc696tH56G8OlRaH/sqZOynNNB+HF0WOeXPaxTtbYzJY2oEfiUxjSKjhCKr+MvR7dCHcEelug==
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 "@types/react-dom@^17.0.0":
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.2.tgz#35654cf6c49ae162d5bc90843d5437dc38008d43"
@@ -1902,6 +1906,8 @@
 
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 "@types/react-transition-group@^4.2.0":
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-4.4.1.tgz#e1a3cb278df7f47f17b5082b1b3da17170bd44b1"
@@ -1910,7 +1916,11 @@
     "@types/react" "*"
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 "@types/react@*", "@types/react@^17.0.0":
+=======
+"@types/react@*":
+>>>>>>> Stashed changes
 =======
 "@types/react@*":
 >>>>>>> Stashed changes
@@ -5602,7 +5612,11 @@ hmac-drbg@^1.0.1:
     minimalistic-crypto-utils "^1.0.1"
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 hoist-non-react-statics@^3.1.0, hoist-non-react-statics@^3.3.2:
+=======
+hoist-non-react-statics@^3.3.2:
+>>>>>>> Stashed changes
 =======
 hoist-non-react-statics@^3.3.2:
 >>>>>>> Stashed changes
@@ -9282,7 +9296,11 @@ react-error-overlay@^6.0.9:
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
+=======
+react-is@^16.7.0, react-is@^16.8.1:
+>>>>>>> Stashed changes
 =======
 react-is@^16.7.0, react-is@^16.8.1:
 >>>>>>> Stashed changes
@@ -10809,12 +10827,16 @@ timsort@^0.3.0:
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 tiny-invariant@^1.0.2:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.1.0.tgz#634c5f8efdc27714b7f386c35e6760991d230875"
   integrity sha512-ytxQvrb1cPc9WBEI/HSeYYoGD0kWnGEOR8RY6KomWLBVhqz0RgTwVO9dLrGz7dC+nN9llyI7OKAgRq8Vq4ZBSw==
 
 tiny-warning@^1.0.0, tiny-warning@^1.0.2, tiny-warning@^1.0.3:
+=======
+tiny-warning@^1.0.2:
+>>>>>>> Stashed changes
 =======
 tiny-warning@^1.0.2:
 >>>>>>> Stashed changes

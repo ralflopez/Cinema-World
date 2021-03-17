@@ -3,13 +3,20 @@ import { useLocation } from 'react-router-dom';
 import MainInfo from './_MainInfo';
 import Time from './_Time';
 import Seat from './_Seat';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function Movie() {
     const classes = useStyles();
     const {state: { data }}: any = useLocation();
-    const [time, setTime] = useState<string>('');
-    const [seats, setSeats] = useState<boolean[]>(data.seats);
+    const [time, setTime] = useState<string>(data.time[0].time);
+    const [seats, setSeats] = useState<boolean[]>([]);
+
+    useEffect(() => {
+        setSeats(() => {
+            const i = data.time.findIndex((d: any) => d.time === time);
+            return data.time[i].seats;
+        });
+    }, [time, data]);
 
     return (
         <Box className={classes.container}>

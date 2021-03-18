@@ -1,0 +1,67 @@
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import joi from 'joi';
+import mongoose from 'mongoose';
+import { login as loginValidation, signup as signupValidation } from './validationSchema';
+import Users from '../../schema/Users';
+import hash from './hash';
+import User from '../../schema/Users';
+import { Router } from 'express';
+const router = Router();
+
+router.post('/signin', async (req, res) => {
+    // validate input
+    const valid: joi.ValidationResult = loginValidation.validate(req.body);
+    if('error' in valid)
+        return res.status(400).send({err: 'Invalid Input'});
+    
+    // check if user exist in database
+    const user: any = await Users.findOne({email: req.body.email});
+    if(!user)
+        return res.send({err: 'User Does Not Exist'});
+
+    //compare pass
+    const validPass: boolean = await bcrypt.compare(req.body.password, user.password);
+    if(!validPass)
+        return res.send({err: "invlid email or password"});
+    
+    const secret: string = 'ADSDSDSAD';
+    const userInfo: any = {
+        name: user.name,
+        email: user.email,
+    }
+    const token: string = jwt.sign(userInfo, secret);
+
+    res.header(token).send(userInfo);
+});
+
+router.post('/signup', async (req, res) => {
+    // validate input
+    const valid: joi.ValidationResult = signupValidation.validate(req.body);
+    if('error' in valid)
+        return res.status(400).send({err: 'Invalid Input'});
+    
+    // check if user exist in database
+    const doesExist: any = await Users.findOne({email: req.body.email});
+    if(doesExist)
+        return res.status(400).send({err: 'User Already Exist'});
+
+    // hash password
+    const pass: string = await hash(req.body.password);
+    const newUser: mongoose.Document<any> = new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: pass,
+        ticket: []
+    });
+
+    //save
+    try {
+        const saved:mongoose.Document<any> = await newUser.save();
+        res.status(200).send(saved);
+    } catch(err) {
+        res.status(500).send({err: err});
+    }
+});
+
+export default router;

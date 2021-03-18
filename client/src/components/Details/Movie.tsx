@@ -1,22 +1,56 @@
 import { Box, Button, makeStyles } from '@material-ui/core';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import MainInfo from './_MainInfo';
 import Time from './_Time';
 import Seat from './_Seat';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../../context/UserProvider';
+
+interface ITicket {
+    name: string,
+    time: string,
+    cinema: string,
+    seat: number | null,
+    buyerName: string,
+    buyerEmail: string,
+}
 
 function Movie() {
+    const { user } = useContext(UserContext);
     const classes = useStyles();
+    const history = useHistory();
     const {state: { data }}: any = useLocation();
-    const [time, setTime] = useState<string>(data.time[0].time);
+    const [time, setTime] = useState<string>(data.time ? data.time[0].time : '');
     const [seats, setSeats] = useState<boolean[]>([]);
+    const [active, setActive] = useState<number|null>(null);
 
     useEffect(() => {
+        if(time === '') return;
+    
         setSeats(() => {
             const i = data.time.findIndex((d: any) => d.time === time);
             return data.time[i].seats;
         });
     }, [time, data]);
+
+    const handleBuy = () => {
+        if(user.email === '')
+            return history.push('/mymovie');
+        
+        if(active == null) return;
+
+        const timeI = data.time.findIndex((d: any) => d.time === time);
+        const ticketInfo: ITicket = {
+            name: data.title,
+            time: time,
+            cinema: data.time[timeI].cinema,
+            seat: active as number + 1,
+            buyerName: user.name,
+            buyerEmail: user.email
+        }
+
+        console.log(ticketInfo);
+    }
 
     return (
         <Box className={classes.container}>
@@ -26,11 +60,18 @@ function Movie() {
                         time={time} 
                         setTime={setTime}
             /> }
-            {data.seats && <Seat
-                        seats={seats}
-                        setSeats={setSeats}
-            /> }
-            <Button variant="contained" color="primary" size="large">Buy</Button>
+            {data.seats && (
+                        <>
+                            <Seat
+                                seats={seats}
+                                setSeats={setSeats}
+                                active={active}
+                                setActive={setActive}
+                            />
+                            <Button variant="contained" color="primary" size="large" onClick={handleBuy}>Buy</Button>
+                        </>
+
+            ) }
         </Box>
     );
 }

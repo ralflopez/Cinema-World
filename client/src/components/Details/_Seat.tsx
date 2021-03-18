@@ -3,12 +3,13 @@ import { useState, useEffect } from 'react';
 
 interface ISeat {
     seats: boolean[],
-    setSeats: any
+    setSeats: any,
+    active: number | null,
+    setActive: any
 }
 
-function _Seat({ seats, setSeats }: ISeat) {
+function _Seat({ seats, setSeats, active, setActive }: ISeat) {
     const classes = useStyles();
-    const [active, setActive] = useState<number|null>(null);
     
     const handleSeatSelect = (index: number) => {
         if(seats[index] && index !== active) return;

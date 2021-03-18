@@ -5,21 +5,24 @@ import NavBar from './components/NavBar/NavBar';
 import Home from './components/Home/Home';
 import Movie from './components/Details/Movie';
 import MyMovie from './components/MyMovie/MyMovie';
+import UserProvider from './context/UserProvider';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-        <div style={{width: '100%', maxWidth: '1000px', margin: 'auto', padding: '0 16px'}}>
-          <Router>
-            <NavBar />
-            <Switch>
-              <Route path="/" exact component={Home} />
-              <Route path="/movie" component={Movie} />
-              <Route path="/mymovie" component={MyMovie} />
-            </Switch>
-          </Router>
-        </div>
+        <UserProvider>
+          <div style={{width: '100%', maxWidth: '1000px', margin: 'auto', padding: '0 16px'}}>
+            <Router>
+              <NavBar />
+              <Switch>
+                <Route path="/" exact component={Home} />
+                <Route path="/movie" component={Movie} />
+                <Route path="/mymovie" component={MyMovie} />
+              </Switch>
+            </Router>
+          </div>
+        </UserProvider>
     </ThemeProvider>
   );
 }

@@ -9,7 +9,7 @@ function MyMovieScreen() {
     
     return (
         <Grid container justify="center">
-            <Grid item xs={10} md={6}>
+            <Grid item xs={10}>
                 {
                     user.email === ''
                     ? (<AuthScreen />)

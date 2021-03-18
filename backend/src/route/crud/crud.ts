@@ -29,4 +29,13 @@ router.post('/insert', async (req, res) => {
     }
 });
 
+router.get('/readticket', async (req, res) => {
+    try {
+        const tickets = await Ticket.find({buyerEmail: req.query.email});
+        res.status(200).send(tickets);
+    } catch(err) {
+        res.status(500).send(err);
+    }
+});
+
 export default router;

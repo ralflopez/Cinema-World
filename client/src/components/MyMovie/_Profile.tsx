@@ -1,14 +1,15 @@
-import { Button, Typography } from '@material-ui/core';
+import { Box, Button, Card, CardContent, CardActions, Typography } from '@material-ui/core';
 import axios from 'axios';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UserProvider';
 
 function _Profile() {
     const { user, setUser } = useContext(UserContext);
+    const [ticket, setTicket] = useState([]);
 
     useEffect(() => {
-        axios.post('/crud/insert', {email: user.email})
-        .then(res => console.log(res))
+        axios.get(`/crud/readticket?email=${user.email}`)
+        .then((res: any) => setTicket(res.data))
         .catch(err => console.log(err));
     }, []);
 
@@ -20,7 +21,18 @@ function _Profile() {
         <div>
             <Typography variant="h2">{user.name}</Typography>
             <Typography variant="body1">{user.email}</Typography>
-            <Button variant="outlined" color="primary" onClick={handleLogOut}>Log Out</Button>
+            <Box mt={3} mb={3}>
+                <Button variant="outlined" color="primary" onClick={handleLogOut}>Log Out</Button>
+            </Box>
+            <Typography variant="h5">My Movies</Typography>
+            {
+                ticket.map((t:any) => (
+                    <Box mt={2} mb={3}>
+                        <Typography variant="h4">{t.title}</Typography>
+                        <Typography variant="body1" color="primary">{t.time} -- {t.cinema}</Typography>
+                    </Box>
+                ))
+            }
         </div>
     );
 }

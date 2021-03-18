@@ -5,9 +5,11 @@ import Time from './_Time';
 import Seat from './_Seat';
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UserProvider';
+import axios from 'axios';
 
 interface ITicket {
-    name: string,
+    title: string,
+    year: number,
     time: string,
     cinema: string,
     seat: number | null,
@@ -41,7 +43,8 @@ function Movie() {
 
         const timeI = data.time.findIndex((d: any) => d.time === time);
         const ticketInfo: ITicket = {
-            name: data.title,
+            title: data.title,
+            year: data.year,
             time: time,
             cinema: data.time[timeI].cinema,
             seat: active as number + 1,
@@ -49,7 +52,13 @@ function Movie() {
             buyerEmail: user.email
         }
 
-        console.log(ticketInfo);
+        // console.log(ticketInfo);
+        axios.post('/crud/insert', {
+            ticket: ticketInfo,
+            seats: seats
+        })
+        .then(() => alert('Thank You For Buying'))
+        .catch(() => alert('Unable to Process Order'));
     }
 
     return (

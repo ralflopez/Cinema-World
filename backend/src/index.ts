@@ -3,6 +3,7 @@ import mongoConfig from './config/mongodb';
 import moviesAPI from './route/api/movies';
 import userAuth from './route/auth/auth';
 import crudRoute from './route/crud/crud';
+import Movie from './schema/Movie';
 
 // config
 const app = express();

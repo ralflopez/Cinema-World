@@ -7,7 +7,8 @@ function _Profile() {
     const { user, setUser, token } = useContext(UserContext);
     const [ticket, setTicket] = useState([]);
 
-    useEffect(() => {
+    
+    const load = () => {
         axios.get(`/crud/readticket?email=${user.email}`, {
             headers: {
                 authorization: 'Bearer ' + token
@@ -15,10 +16,33 @@ function _Profile() {
         })
         .then((res: any) => setTicket(res.data))
         .catch(err => console.log(err));
+    }
+
+    useEffect(() => {
+        load();    
     }, []);
 
     const handleLogOut = () => {
         setUser({name: '', email: ''});
+    }
+
+    const handleDeleteTicket = (title: string, seat: number, time: string) => {
+        axios.delete('/crud/delete', {
+            data: {
+                title: title,
+                seat: seat,
+                time: time,
+                buyerEmail: user.email 
+            },
+            headers: {
+                authorization: 'Bearer ' + token
+            }
+        })
+        .then(res => {
+            if(res.data) {
+                load();
+            }
+        })
     }
 
     return (
@@ -34,6 +58,7 @@ function _Profile() {
                     <Box mt={2} mb={3}>
                         <Typography variant="h4">{t.title}</Typography>
                         <Typography variant="body1" color="primary">{t.time} -- {t.cinema}</Typography>
+                        <Button color="secondary" variant="text" onClick={() => handleDeleteTicket(t.title, t.seat, t.time)}>Delete</Button>
                     </Box>
                 ))
             }

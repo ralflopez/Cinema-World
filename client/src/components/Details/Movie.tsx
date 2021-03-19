@@ -18,7 +18,7 @@ interface ITicket {
 }
 
 function Movie() {
-    const { user } = useContext(UserContext);
+    const { user, token } = useContext(UserContext);
     const classes = useStyles();
     const history = useHistory();
     const {state: { data }}: any = useLocation();
@@ -52,12 +52,18 @@ function Movie() {
             buyerEmail: user.email
         }
 
-        // console.log(ticketInfo);
-        axios.post('/crud/insert', {
+        const body = {
             ticket: ticketInfo,
-            seats: seats
+            seats: seats,
+        };
+
+        // console.log(ticketInfo);
+        axios.post('/crud/insert', body, {
+            headers: {
+                authorization: 'Bearer ' + token
+            }
         })
-        .then(() => alert('Thank You For Buying'))
+        .then(() => history.push('/mymovie'))
         .catch(() => alert('Unable to Process Order'));
     }
 

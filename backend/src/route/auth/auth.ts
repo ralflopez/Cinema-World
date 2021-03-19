@@ -1,13 +1,20 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import joi from 'joi';
+import joi, { StringRegexOptions } from 'joi';
 import mongoose from 'mongoose';
 import { login as loginValidation, signup as signupValidation } from './validationSchema';
 import Users from '../../schema/Users';
 import hash from './hash';
 import User from '../../schema/Users';
+import dotenv from 'dotenv';
 import { Router } from 'express';
 const router = Router();
+dotenv.config();
+
+interface IUserInfo {
+    name: string,
+    email: string
+}
 
 router.post('/signin', async (req, res) => {
     // validate input
@@ -25,14 +32,17 @@ router.post('/signin', async (req, res) => {
     if(!validPass)
         return res.send({err: "invlid email or password"});
     
-    const secret: string = 'ADSDSDSAD';
-    const userInfo: any = {
+    const userInfo: IUserInfo = {
         name: user.name,
         email: user.email,
     }
-    const token: string = jwt.sign(userInfo, secret);
 
-    res.header(token).send(userInfo);
+    const accessToken: string = generateAccessToken(userInfo);
+
+    res.send({
+        accessToken,
+        userInfo
+    });
 });
 
 router.post('/signup', async (req, res) => {
@@ -63,5 +73,26 @@ router.post('/signup', async (req, res) => {
         res.status(500).send({err: err});
     }
 });
+
+function generateAccessToken(userInfo: IUserInfo) {
+    const secret: string = process.env.ACCESS_SECRET || '';
+    return jwt.sign(userInfo, secret, {expiresIn: '7d'});
+}
+
+export function authenticateToken(req: any, res: any, next: any) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if(token == null)
+        return res.sendStatus(401);
+
+    const secret: string = process.env.ACCESS_SECRET || '';
+    jwt.verify(token, secret, (err: any, user: any) => {
+        if(err)
+            return res.statusCode(403);
+        
+        req.user = user;
+        next();
+    });
+}
 
 export default router;

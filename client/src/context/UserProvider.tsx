@@ -7,16 +7,19 @@ export interface IUser {
 
 interface IContext {
     user: IUser,
-    setUser: any
+    setUser: any,
+    token: string,
+    setToken: any
 }
 
 export const UserContext = createContext({} as IContext);
 
 function User({ children }: any) {
+    const [token, setToken] = useState<string>('');
     const [user, setUser] = useState<IUser>({name: '', email: ''});
 
     return (
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ user, setUser, token, setToken }}>
             { children }
         </UserContext.Provider>
     );

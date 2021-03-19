@@ -1,11 +1,11 @@
 import { Router } from 'express';
+import { authenticateToken } from '../auth/auth';
 import Movie from '../../schema/Movie';
 import Ticket from '../../schema/Ticket';
 const router = Router();
 
-router.post('/insert', async (req, res) => { 
+router.post('/insert', authenticateToken, async (req, res) => { 
     try {
-        console.log(req.body)
         const newTicket = new Ticket(req.body.ticket);
         await newTicket.save();
 
@@ -29,7 +29,7 @@ router.post('/insert', async (req, res) => {
     }
 });
 
-router.get('/readticket', async (req, res) => {
+router.get('/readticket', authenticateToken, async (req, res) => {
     try {
         const tickets = await Ticket.find({buyerEmail: req.query.email});
         res.status(200).send(tickets);

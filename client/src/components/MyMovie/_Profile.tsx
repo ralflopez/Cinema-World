@@ -4,11 +4,15 @@ import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UserProvider';
 
 function _Profile() {
-    const { user, setUser } = useContext(UserContext);
+    const { user, setUser, token } = useContext(UserContext);
     const [ticket, setTicket] = useState([]);
 
     useEffect(() => {
-        axios.get(`/crud/readticket?email=${user.email}`)
+        axios.get(`/crud/readticket?email=${user.email}`, {
+            headers: {
+                authorization: 'Bearer ' + token
+            }
+        })
         .then((res: any) => setTicket(res.data))
         .catch(err => console.log(err));
     }, []);

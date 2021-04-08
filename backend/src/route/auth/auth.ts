@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import joi, { StringRegexOptions } from 'joi';
+import joi from 'joi';
 import mongoose from 'mongoose';
 import { login as loginValidation, signup as signupValidation } from './validationSchema';
 import Users from '../../schema/Users';
@@ -39,10 +39,14 @@ router.post('/signin', async (req, res) => {
 
     const accessToken: string = generateAccessToken(userInfo);
 
-    res.send({
-        accessToken,
-        userInfo
-    });
+    // res.send({
+    //     accessToken,
+    //     userInfo
+    // });
+    res.cookie('auth-token', accessToken, { 
+        maxAge: 60 * 60 * 24 * 30 * 1000,
+        httpOnly: true
+    }).send(userInfo);
 });
 
 router.post('/signup', async (req, res) => {
@@ -80,9 +84,11 @@ function generateAccessToken(userInfo: IUserInfo) {
 }
 
 export function authenticateToken(req: any, res: any, next: any) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-    if(token == null)
+    // const authHeader = req.headers['authorization'];
+    // const token = authHeader && authHeader.split(' ')[1];
+    const token = req.cookies['auth-token']
+
+    if(!token)
         return res.sendStatus(401);
 
     const secret: string = process.env.ACCESS_SECRET || '';

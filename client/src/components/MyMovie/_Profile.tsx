@@ -10,9 +10,9 @@ function _Profile() {
     
     const load = () => {
         axios.get(`/crud/readticket?email=${user.email}`, {
-            headers: {
-                authorization: 'Bearer ' + token
-            }
+            // headers: {
+            //     authorization: 'Bearer ' + token
+            // }
         })
         .then((res: any) => setTicket(res.data))
         .catch(err => console.log(err));
@@ -34,9 +34,9 @@ function _Profile() {
                 time: time,
                 buyerEmail: user.email 
             },
-            headers: {
-                authorization: 'Bearer ' + token
-            }
+            // headers: {
+            //     authorization: 'Bearer ' + token
+            // }
         })
         .then(res => {
             if(res.data) {

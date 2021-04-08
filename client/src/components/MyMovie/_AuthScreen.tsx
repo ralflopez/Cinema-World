@@ -28,7 +28,7 @@ const reducer = (state: any, action: any): void => {
 }
 
 function _AuthScreen() {
-    const { user, setUser, setToken } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
     const classes = useStyles();
 
     const [isSignUp, setIsSignUp] = useState<boolean>(false);
@@ -41,11 +41,12 @@ function _AuthScreen() {
             password: form.password
         })
         .then((res: AxiosResponse | any) => {
+            console.log(res);
             if('err' in res.data)
                 setErr(res.data.err);
             else {
-                setToken(res.data.accessToken);
-                setUser(res.data.userInfo);
+                // setToken(res.data.accessToken);
+                setUser(res.data);
             }
         })
         .catch(err => {

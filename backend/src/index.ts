@@ -1,4 +1,5 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import mongoConfig from './config/mongodb';
 import moviesAPI from './route/api/movies';
 import userAuth from './route/auth/auth';
@@ -12,6 +13,7 @@ mongoConfig();
 // middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cookieParser());
 
 // routes
 app.use('/api', moviesAPI);
